@@ -50,8 +50,8 @@ st.write(f"R-squared: {r2:.2f}")
 
 # Sidebar inputs for new measurements
 st.sidebar.header("Enter Your Measurements")
-weight = st.sidebar.number_input("Weight (kg)", min_value=0.0, value=68.0)
-height = st.sidebar.number_input("Height (cm)", min_value=0.0, value=178.0)
+weight = st.sidebar.number_input("Weight (kg)", min_value=40, value=68)
+height = st.sidebar.number_input("Height (cm)", min_value=140, value=178)
 
 # Updated chest input with hint
 chest = st.sidebar.number_input("Chest Value (0: Strong, 1: Average, 2: Wide)", min_value=0, max_value=2, value=1)
