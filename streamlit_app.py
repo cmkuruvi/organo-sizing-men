@@ -4,8 +4,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
-st.title("ORGANO
-👔 AI-Powered Body Measurement Predictor - MEN")
+st.subheader("ORGANO")
+st.title("👔 AI-Powered Body Measurement Predictor - MEN")
 
 # Function to load the dataset
 @st.cache_data
