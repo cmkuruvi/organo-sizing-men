@@ -4,7 +4,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 from sklearn import metrics
 
-st.title("Man Body Measurements Estimator")
+st.title("👔 AI-Powered Body Measurement Predictor - MEN")
 
 # Load the dataset (caching to avoid reloading on every interaction)
 @st.cache_data
@@ -36,10 +36,10 @@ model, mae, mse, rmse, r2 = train_model(df)
 
 # Sidebar inputs for new data
 st.sidebar.header("Input Your Measurements")
-weight = st.sidebar.number_input("Weight (kg)", min_value=0.0, value=68.0)
-height = st.sidebar.number_input("Height (cm)", min_value=0.0, value=178.0)
-chest = st.sidebar.number_input("Chest Value", min_value=0.0, value=1.0)
-abdomen = st.sidebar.number_input("Abdomen Value", min_value=0.0, value=0.0)
+weight = st.sidebar.number_input("Weight (kg)", min_value=50, max_value=130, step=1)
+height = st.sidebar.number_input("Height (cm)", min_value=150, max_value=220, step=1)
+chest = st.sidebar.number_input("Chest Value", min_value=0, max_value=3, step=1)
+abdomen = st.sidebar.number_input("Abdomen Value", min_value=0, max_value=3, step=1)
 
 if st.sidebar.button("Predict Measurements"):
     new_data = pd.DataFrame({'Weight': [weight],
