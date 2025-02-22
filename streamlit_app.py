@@ -14,8 +14,6 @@ def load_data():
     return df
 
 df = load_data()
-st.subheader("Dataset Preview")
-st.write(df.head())
 
 # Train the model (cache to avoid re-training on every interaction)
 @st.cache_data
@@ -36,11 +34,6 @@ def train_model(data):
     return model, mae, mse, rmse, r2
 
 model, mae, mse, rmse, r2 = train_model(df)
-st.subheader("Model Performance")
-st.write(f"Mean Absolute Error: {mae:.2f}")
-st.write(f"Mean Squared Error: {mse:.2f}")
-st.write(f"Root Mean Squared Error: {rmse:.2f}")
-st.write(f"R-squared: {r2:.2f}")
 
 # Sidebar inputs for new data
 st.sidebar.header("Input Your Measurements")
