@@ -4,6 +4,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
+st.image("2.png", width=200)
+
 st.subheader("ORGANO")
 st.title("👔 AI-Powered Body Measurement Predictor - MEN")
 
@@ -16,8 +18,6 @@ def load_data():
 
 # Load the dataset and display a preview
 df = load_data()
-st.subheader("Dataset Preview")
-st.dataframe(df.head())
 
 # Function to train the linear regression model
 @st.cache_data
