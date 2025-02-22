@@ -52,8 +52,8 @@ st.write(f"R-squared: {r2:.2f}")
 st.sidebar.header("Enter Your Measurements")
 weight = st.sidebar.number_input("Weight (kg)", min_value=0, value=68)
 height = st.sidebar.number_input("Height (cm)", min_value=0, value=178)
-chest = st.sidebar.number_input("Chest Value", min_value=0.0, value=1.0)
-abdomen = st.sidebar.number_input("Abdomen Value", min_value=0.0, value=0.0)
+chest = st.sidebar.number_input("Chest Value", min_value=0, value=1)
+abdomen = st.sidebar.number_input("Abdomen Value", min_value=0, value=0)
 
 if st.sidebar.button("Predict Measurements"):
     # Create a DataFrame for the new data point
