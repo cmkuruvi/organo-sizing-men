@@ -29,9 +29,8 @@ def train_model(data):
     y_pred = model.predict(X_test)
     mae = metrics.mean_absolute_error(y_test, y_pred)
     mse = metrics.mean_squared_error(y_test, y_pred)
-    rmse = metrics.mean_squared_error(y_test, y_pred, squared=False)
+    rmse = metrics.root_mean_squared_error(y_test, y_pred)
     r2 = metrics.r2_score(y_test, y_pred)
-    return model, mae, mse, rmse, r2
 
 model, mae, mse, rmse, r2 = train_model(df)
 
