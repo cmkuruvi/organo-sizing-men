@@ -47,7 +47,7 @@ st.write(f"Mean Squared Error: {mse:.2f}")
 st.write(f"Root Mean Squared Error: {rmse:.2f}")
 st.write(f"R-squared: {r2:.2f}")
 
-st.write("Enter your body measurements in the Sidebar to get AI-generated body measurements.")
+st.subheader("Enter your body measurements in the Sidebar to get AI-generated sizes.")
 
 # Sidebar inputs for new measurements
 st.sidebar.header("Enter Your Measurements")
