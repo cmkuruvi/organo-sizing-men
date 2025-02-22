@@ -57,6 +57,8 @@ height = st.sidebar.number_input("Height (cm)", min_value=140, value=178)
 chest = st.sidebar.number_input("Chest Value (0: Strong, 1: Average, 2: Wide)", min_value=0, max_value=2, value=1)
 if chest == 0:
     st.sidebar.info("Hint: '0' indicates Strong")
+    else if chest == 1:
+    st.sidebar.info("Hint: '1' indicates Average")
 
 # Updated abdomen input with hint
 abdomen = st.sidebar.number_input("Abdomen Value (0: Flat, 1: Average, 2: Belly, 3: Belly+)", min_value=0, max_value=3, value=1)
