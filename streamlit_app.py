@@ -4,7 +4,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
-st.title("Man Body Measurements Predictor")
+st.title("👔 AI-Powered Body Measurement Predictor - MEN")
 
 # Function to load the dataset
 @st.cache_data
@@ -50,10 +50,19 @@ st.write(f"R-squared: {r2:.2f}")
 
 # Sidebar inputs for new measurements
 st.sidebar.header("Enter Your Measurements")
-weight = st.sidebar.number_input("Weight (kg)", min_value=0, value=68)
-height = st.sidebar.number_input("Height (cm)", min_value=0, value=178)
-chest = st.sidebar.number_input("Chest Value", min_value=0, value=1)
-abdomen = st.sidebar.number_input("Abdomen Value", min_value=0, value=0)
+weight = st.sidebar.number_input("Weight (kg)", min_value=0.0, value=68.0)
+height = st.sidebar.number_input("Height (cm)", min_value=0.0, value=178.0)
+
+# Updated chest input with hint
+chest = st.sidebar.number_input("Chest Value (0: Strong, 1: Average, 2: Wide)", min_value=0, max_value=2, value=1)
+if chest == 0:
+    st.sidebar.info("Hint: '0' indicates Strong")
+
+# Updated abdomen input with hint
+abdomen = st.sidebar.number_input("Abdomen Value (0: Flat, 1: Average, 2: Belly, 3: Belly+)", min_value=0, max_value=3, value=1)
+if abdomen == 0:
+    st.sidebar.info("Hint: '0' indicates Flat")
+
 
 if st.sidebar.button("Predict Measurements"):
     # Create a DataFrame for the new data point
