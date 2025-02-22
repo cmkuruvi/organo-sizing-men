@@ -56,14 +56,22 @@ height = st.sidebar.number_input("Height (cm)", min_value=140, value=178)
 # Updated chest input with hint
 chest = st.sidebar.number_input("Chest Value (0: Strong, 1: Average, 2: Wide)", min_value=0, max_value=2, value=1)
 if chest == 0:
-    st.sidebar.info("Hint: '0' indicates Strong")
-else if chest == 1:
-    st.sidebar.info("Hint: '1' indicates Average")
+    st.sidebar.info("Hint: '0' indicates STRONG")
+elif chest == 1:
+    st.sidebar.info("Hint: '1' indicates AVERAGE")
+elif chest == 2:
+    st.sidebar.info("Hint: '2' indicates WIDE")
 
 # Updated abdomen input with hint
 abdomen = st.sidebar.number_input("Abdomen Value (0: Flat, 1: Average, 2: Belly, 3: Belly+)", min_value=0, max_value=3, value=1)
 if abdomen == 0:
-    st.sidebar.info("Hint: '0' indicates Flat")
+    st.sidebar.info("Hint: '0' indicates FLAT")
+elif abdomen == 1:
+    st.sidebar.info("Hint: '1' indicates AVERAGE")
+elif abdomen == 2:
+    st.sidebar.info("Hint: '2' indicates BELLY")
+elif abdomen == 3:
+    st.sidebar.info("Hint: '3' indicates BELLY+")
 
 
 if st.sidebar.button("Predict Measurements"):
