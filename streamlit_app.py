@@ -75,6 +75,25 @@ elif abdomen == 3:
     st.sidebar.info("Hint: '3' indicates BELLY+")
 
 
+import streamlit as st
+
+# Custom CSS to enhance the sidebar button on mobile devices
+st.markdown(
+    """
+    <style>
+    @media (max-width: 600px) {
+        .stButton button {
+            font-size: 20px;    /* Increase the font size */
+            padding: 12px 24px; /* Increase the padding */
+            background-color: #4CAF50; /* Optional: add a custom background color */
+            color: white;              /* Optional: set a custom text color */
+        }
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 if st.sidebar.button("Predict Measurements"):
     # Create a DataFrame for the new data point
     new_data = pd.DataFrame({
