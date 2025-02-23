@@ -1,24 +1,4 @@
 import streamlit as st
-
-st.markdown(
-    """
-    <style>
-    @media (max-width: 600px) {
-      /* Target the sidebar toggle button (hamburger menu) */
-      button[aria-label="Toggle sidebar"] {
-          background-color: #4CAF50;
-          color: white;
-          font-size: 20px;
-          padding: 10px 20px;
-          border: none;
-          border-radius: 5px;
-      }
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
-
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
@@ -67,7 +47,7 @@ st.write(f"Mean Squared Error: {mse:.2f}")
 st.write(f"Root Mean Squared Error: {rmse:.2f}")
 st.write(f"R-squared: {r2:.2f}")
 
-st.subheader("Enter your body measurements in the Sidebar to get AI-generated sizes.")
+st.subheader("OPEN SIDEBAR -button at top left- to input values.")
 
 # Sidebar inputs for new measurements
 st.sidebar.header("Enter Your Measurements")
