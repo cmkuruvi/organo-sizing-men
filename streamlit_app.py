@@ -1,4 +1,24 @@
 import streamlit as st
+
+st.markdown(
+    """
+    <style>
+    @media (max-width: 600px) {
+      /* Target the sidebar toggle button (hamburger menu) */
+      button[aria-label="Toggle sidebar"] {
+          background-color: #4CAF50;
+          color: white;
+          font-size: 20px;
+          padding: 10px 20px;
+          border: none;
+          border-radius: 5px;
+      }
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
@@ -73,26 +93,6 @@ elif abdomen == 2:
     st.sidebar.info("Hint: '2' indicates BELLY")
 elif abdomen == 3:
     st.sidebar.info("Hint: '3' indicates BELLY+")
-
-
-import streamlit as st
-
-# Custom CSS to enhance the sidebar button on mobile devices
-st.markdown(
-    """
-    <style>
-    @media (max-width: 600px) {
-        .stButton button {
-            font-size: 20px;    /* Increase the font size */
-            padding: 12px 24px; /* Increase the padding */
-            background-color: #4CAF50; /* Optional: add a custom background color */
-            color: white;              /* Optional: set a custom text color */
-        }
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
 
 if st.sidebar.button("Predict Measurements"):
     # Create a DataFrame for the new data point
