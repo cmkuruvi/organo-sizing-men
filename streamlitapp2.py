@@ -104,11 +104,12 @@ if st.sidebar.button("Predict Measurements"):
         customer_data = {
             "Name": name,
             "Email": email,
-            "Weight": weight,
-            "Height": height,
+            "Weight (kg)": weight,
+            "Height (cm)": height,
             "Chest": chest,
             "Abdomen": abdomen,
         }
+        # Combine input and edited output
         combined_data = {**customer_data, **edited_values.iloc[0].to_dict()}
         df_to_save = pd.DataFrame([combined_data])
 
