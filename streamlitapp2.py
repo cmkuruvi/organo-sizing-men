@@ -1,9 +1,9 @@
 import streamlit as st
 import pandas as pd
+import os  # For checking file existence
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
-import os  # For checking file existence
 
 st.image("2.png", width=200)
 st.title("👔 AI-Powered Body Measurement Predictor - MEN")
@@ -58,24 +58,9 @@ height = st.sidebar.number_input("Height (cm)", min_value=140, value=178)
 chest = st.sidebar.number_input("Chest Value (0: Strong, 1: Average, 2: Wide)", min_value=0, max_value=2, value=1)
 abdomen = st.sidebar.number_input("Abdomen Value (0: Flat, 1: Average, 2: Belly, 3: Belly+)", min_value=0, max_value=3, value=1)
 
-# Ensure hints are visible
-if chest == 0:
-    st.sidebar.info("Hint: '0' indicates STRONG")
-elif chest == 1:
-    st.sidebar.info("Hint: '1' indicates AVERAGE")
-elif chest == 2:
-    st.sidebar.info("Hint: '2' indicates WIDE")
-
-if abdomen == 0:
-    st.sidebar.info("Hint: '0' indicates FLAT")
-elif abdomen == 1:
-    st.sidebar.info("Hint: '1' indicates AVERAGE")
-elif abdomen == 2:
-    st.sidebar.info("Hint: '2' indicates BELLY")
-elif abdomen == 3:
-    st.sidebar.info("Hint: '3' indicates BELLY+")
-
 if st.sidebar.button("Predict Measurements"):
+    st.write("✅ **Prediction Button Clicked**")  # Debugging message
+
     new_data = pd.DataFrame({'Weight': [weight], 'Height': [height], 'Chest': [chest], 'Abdomen': [abdomen]})
     predicted_values = model.predict(new_data)
     
@@ -99,6 +84,8 @@ if st.sidebar.button("Predict Measurements"):
     edited_values = st.data_editor(pd.DataFrame([pred_values]))
 
     if st.button("Submit"):
+        st.write("✅ **Submit Button Clicked**")  # Debugging message
+
         customer_data = {
             "Name": name,
             "Email": email,
@@ -119,15 +106,17 @@ if st.sidebar.button("Predict Measurements"):
             try:
                 existing_df = pd.read_csv(file_name)
                 updated_df = pd.concat([existing_df, df_to_save], ignore_index=True)
+                st.write("✅ **Existing file found, appending data**")  # Debugging message
             except Exception as e:
-                st.error(f"Error reading existing file: {e}")
+                st.error(f"❌ Error reading existing file: {e}")
                 updated_df = df_to_save
         else:
             updated_df = df_to_save
+            st.write("✅ **Creating new CSV file**")  # Debugging message
 
         try:
             updated_df.to_csv(file_name, index=False)
             st.success("✅ Your measurements have been submitted successfully!")
-            st.write("📂 Data has been saved successfully. You can check `customer_measurements.csv`.")
+            st.write("📂 **Data has been saved successfully.** Check `customer_measurements.csv`.")
         except Exception as e:
             st.error(f"❌ Error saving data: {e}")
