@@ -3,6 +3,7 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
+import os  # For checking file existence
 
 st.image("2.png", width=200)
 st.title("👔 AI-Powered Body Measurement Predictor - MEN")
@@ -14,7 +15,6 @@ def load_data():
     df = pd.read_csv(file_path)
     return df
 
-# Load the dataset
 df = load_data()
 
 # Function to train the model
@@ -31,12 +31,13 @@ def train_model(data):
     y_pred = model.predict(X_test)
     mae = mean_absolute_error(y_test, y_pred)
     mse = mean_squared_error(y_test, y_pred)
-    rmse = mse ** 0.5  # calculate RMSE manually
+    rmse = mse ** 0.5
     r2 = r2_score(y_test, y_pred)
     return model, mae, mse, rmse, r2
 
 # Train the model
 model, mae, mse, rmse, r2 = train_model(df)
+
 st.subheader("Model Evaluation Metrics")
 st.write(f"Mean Absolute Error: {mae:.2f}")
 st.write(f"Mean Squared Error: {mse:.2f}")
@@ -55,6 +56,9 @@ weight = st.sidebar.number_input("Weight (kg)", min_value=40, value=68)
 height = st.sidebar.number_input("Height (cm)", min_value=140, value=178)
 
 chest = st.sidebar.number_input("Chest Value (0: Strong, 1: Average, 2: Wide)", min_value=0, max_value=2, value=1)
+abdomen = st.sidebar.number_input("Abdomen Value (0: Flat, 1: Average, 2: Belly, 3: Belly+)", min_value=0, max_value=3, value=1)
+
+# Ensure hints are visible
 if chest == 0:
     st.sidebar.info("Hint: '0' indicates STRONG")
 elif chest == 1:
@@ -62,7 +66,6 @@ elif chest == 1:
 elif chest == 2:
     st.sidebar.info("Hint: '2' indicates WIDE")
 
-abdomen = st.sidebar.number_input("Abdomen Value (0: Flat, 1: Average, 2: Belly, 3: Belly+)", min_value=0, max_value=3, value=1)
 if abdomen == 0:
     st.sidebar.info("Hint: '0' indicates FLAT")
 elif abdomen == 1:
@@ -73,12 +76,7 @@ elif abdomen == 3:
     st.sidebar.info("Hint: '3' indicates BELLY+")
 
 if st.sidebar.button("Predict Measurements"):
-    new_data = pd.DataFrame({
-        'Weight': [weight],
-        'Height': [height],
-        'Chest': [chest],
-        'Abdomen': [abdomen]
-    })
+    new_data = pd.DataFrame({'Weight': [weight], 'Height': [height], 'Chest': [chest], 'Abdomen': [abdomen]})
     predicted_values = model.predict(new_data)
     
     pred_values = {
@@ -109,17 +107,27 @@ if st.sidebar.button("Predict Measurements"):
             "Chest": chest,
             "Abdomen": abdomen,
         }
+
         # Combine input and edited output
         combined_data = {**customer_data, **edited_values.iloc[0].to_dict()}
         df_to_save = pd.DataFrame([combined_data])
 
-        # Save to CSV (append mode)
-        try:
-            existing_df = pd.read_csv("customer_measurements.csv")
-            updated_df = pd.concat([existing_df, df_to_save], ignore_index=True)
-        except FileNotFoundError:
+        file_name = "customer_measurements.csv"
+
+        # Ensure the file updates correctly
+        if os.path.exists(file_name):
+            try:
+                existing_df = pd.read_csv(file_name)
+                updated_df = pd.concat([existing_df, df_to_save], ignore_index=True)
+            except Exception as e:
+                st.error(f"Error reading existing file: {e}")
+                updated_df = df_to_save
+        else:
             updated_df = df_to_save
 
-        updated_df.to_csv("customer_measurements.csv", index=False)
-
-        st.success("Your measurements have been submitted successfully!")
+        try:
+            updated_df.to_csv(file_name, index=False)
+            st.success("✅ Your measurements have been submitted successfully!")
+            st.write("📂 Data has been saved successfully. You can check `customer_measurements.csv`.")
+        except Exception as e:
+            st.error(f"❌ Error saving data: {e}")
