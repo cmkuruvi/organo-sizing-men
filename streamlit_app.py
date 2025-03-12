@@ -4,6 +4,19 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
+# Password Authentication
+st.sidebar.header("🔒 Enter Password to Access Tool")
+
+password = st.sidebar.text_input("Password", type="password")
+
+# Define your valid password (Change this to your desired password)
+VALID_PASSWORD = "ohdrog"
+
+# Check password before allowing access
+if password != VALID_PASSWORD:
+    st.sidebar.warning("⚠️ Enter the correct password to proceed!")
+    st.stop()  # Stops the app from loading further
+
 st.image("2.png", width=200)
 st.title("👔 AI-Powered Body Measurement Predictor - MEN")
 
