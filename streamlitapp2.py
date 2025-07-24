@@ -54,8 +54,8 @@ st.info("Open the sidebar (top left) to input your data.")
 
 # ------------------ SIDEBAR INPUTS -------------------
 st.sidebar.header("Enter Your Measurements")
-weight = st.sidebar.number_input("Weight (kg)", min_value=40, max_value=200, value=78)
-height = st.sidebar.number_input("Height (cm)", min_value=140, max_value=220, value=180)
+weight = st.sidebar.number_input("Weight (kg)", min_value=40, max_value=200, value=78, help="TEST: Need this for body proportion distribution")
+height = st.sidebar.number_input("Height (cm)", min_value=140, max_value=220, value=180, help="TEST: ")
 chest = st.sidebar.number_input("Chest Value (0: Strong, 1: Average, 2: Wide)", min_value=0, max_value=2, value=1)
 chest_hint = {0: "STRONG", 1: "AVERAGE", 2: "WIDE"}
 st.sidebar.info(f"Hint: '{chest}' indicates {chest_hint[chest]}")
