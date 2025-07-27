@@ -239,3 +239,90 @@ if st.sidebar.button("Predict Measurements"):
                 thigh_diff = abs(garment_measurements['garment_thigh_cm'] - custom_thigh)
                 if thigh_diff <= 2:
                     st.success(f"✅ Predicted garment thigh ({garment_measurements['garment_thigh_cm']:.1f}cm) is within 2cm of your measurement ({custom_thigh:.1f}cm).")
+                else:
+                    st.warning(f"⚠️ Predicted garment thigh differs by {thigh_diff:.1f}cm from your supplied ({custom_thigh:.1f}cm).")
+            if custom_leg_opening > 0:
+                leg_diff = abs(garment_measurements['pant_leg_opening'] - custom_leg_opening)
+                if leg_diff <= 1.5:
+                    st.success(f"✅ Predicted leg opening ({garment_measurements['pant_leg_opening']:.1f}cm) very close to your input ({custom_leg_opening:.1f}cm).")
+                else:
+                    st.warning(f"⚠️ Leg opening predicted ({garment_measurements['pant_leg_opening']:.1f}cm) differs by {leg_diff:.1f}cm from your preference ({custom_leg_opening:.1f}cm).")
+
+        with tabs[3]:
+            st.subheader("Predicted Shorts Measurements")
+            col1, col2 = st.columns(2)
+            with col1:
+                st.metric("Shorts Outseam Length",
+                        f"{garment_measurements['shorts_length']/2.54:.1f}\" | {garment_measurements['shorts_length']:.1f} cm",
+                        help="Pant length minus 57.7cm for above-knee fit")
+                st.metric("Shorts Inseam Length",
+                        f"{garment_measurements['shorts_inseam']/2.54:.1f}\" | {garment_measurements['shorts_inseam']:.1f} cm",
+                        help="Outseam minus rise/2")
+            with col2:
+                st.metric("Shorts Leg Opening",
+                        f"{garment_measurements['shorts_leg_opening']/2.54:.1f}\" | {garment_measurements['shorts_leg_opening']:.1f} cm",
+                        help="110% of garment thigh, adjusted for fit type")
+
+        with tabs[4]:
+            st.subheader("Fit Analysis & Custom Guidance")
+            st.write(f"**Fit:** {fit_type}, **Taper:** {taper_type}, **Build:** {build_type}")
+            st.write(f"**Thigh Ease:** {THIGH_EASE_INCHES}\" ({THIGH_EASE_INCHES * 2.54:.1f}cm)")
+            st.markdown("#### Applied Adjustments:")
+            st.write(f"**Fit Type ({fit_type}):**")
+            if fit_type == "Slim":
+                st.write("- All openings reduced by 10% for trimmer silhouette")
+                st.write("- Best for lean builds or fashion-forward looks")
+            elif fit_type == "Relaxed/Athletic":
+                st.write("- All openings increased by 10% for comfort")
+                st.write("- Ideal for muscular builds or active lifestyles")
+            else:
+                st.write("- Classic proportions based on industry standards")
+            st.write(f"**Build Type ({build_type}):**")
+            if build_type == "Stocky/Muscular":
+                st.write("- Sleeve openings increased by 5% for muscular arms")
+                st.write("- Additional thigh and seat room added")
+            elif build_type == "Lean/Slim":
+                st.write("- Sleeve openings reduced by 5% for slimmer proportions")
+                st.write("- Trimmed measurements throughout")
+            else:
+                st.write("- Standard proportions maintained")
+            st.info("💡 **Tip:** All measurements distinguish between body size and finished garment size, matching how ready-to-wear brands specify products.")
+
+        with tabs[5]:
+            st.subheader("🧵 Finished Garment Specifications")
+            st.markdown("*Production-ready measurements for manufacturing*")
+            st.markdown("#### Shirts")
+            col1, col2 = st.columns(2)
+            with col1:
+                st.write(f"**Full Sleeve Length:** {pred_sleeve:.1f} cm")
+                st.write(f"**Short Sleeve Length:** {garment_measurements['short_sleeve_length']:.1f} cm")
+                st.write(f"**Neck:** {pred_neck:.1f} cm")
+                st.write(f"**Shoulder Width:** {pred_shoulder:.1f} cm")
+            with col2:
+                st.write(f"**Chest Around:** {pred_chest:.1f} cm")
+                st.write(f"**Sleeve Opening:** {garment_measurements['short_sleeve_opening']:.1f} cm")
+                st.write(f"**Bicep:** {pred_bicep:.1f} cm")
+                st.write(f"**Torso Length:** {pred_torso-3.8:.1f} cm")
+            st.markdown("#### Pants")
+            col1, col2 = st.columns(2)
+            with col1:
+                st.write(f"**Outseam:** {pred_leg_length:.1f} cm")
+                st.write(f"**Inseam:** {garment_measurements['pant_inseam']:.1f} cm")
+                st.write(f"**Rise:** {adj_rise:.1f} cm")
+                st.write(f"**Waist:** {adj_waist:.1f} cm")
+            with col2:
+                st.write(f"**Hips:** {adj_hips:.1f} cm")
+                st.write(f"**Thigh (Finished):** {garment_measurements['garment_thigh_cm']:.1f} cm")
+                st.write(f"**Leg Opening:** {garment_measurements['pant_leg_opening']:.1f} cm")
+            st.markdown("#### Shorts")
+            col1, col2 = st.columns(2)
+            with col1:
+                st.write(f"**Outseam:** {garment_measurements['shorts_length']:.1f} cm")
+                st.write(f"**Inseam:** {garment_measurements['shorts_inseam']:.1f} cm")
+            with col2:
+                st.write(f"**Leg Opening:** {garment_measurements['shorts_leg_opening']:.1f} cm")
+
+        st.markdown("---")
+        st.markdown("*All measurements calculated using validated formulas based on your actual garment analysis. Garment measurements include appropriate ease for comfortable fit and movement.*")
+    except Exception as e:
+        st.error(f"Prediction error: {str(e)}")
