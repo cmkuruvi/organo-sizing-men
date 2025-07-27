@@ -16,7 +16,7 @@ if password != VALID_PASSWORD:
 
 # ------------------ APP HEADER -----------------
 st.image("Fitsall Logo new 1.png", width=300)
-st.title("👖 AI-Powered Body Measurement Predictor - MEN")
+st.title("👖 AI-Powered Body Measurement Predictor - MEN (UPDATED)")
 
 # ------------------ DATA LOADING & MODEL -------------------
 @st.cache_data
