@@ -97,6 +97,8 @@ custom_leg_opening = st.sidebar.number_input(
     help="Enter your ideal ankle/hem width."
 )
 
+LEG_LENGTH_ADJUSTMENT_MULTIPLIER = 0.97
+
 def calculate_garment_measurements(pred_sleeve, pred_bicep, pred_leg_length, body_thigh, pred_rise, fit_type, build_type):
     # Your formulas, as validated above:
     short_sleeve_length = pred_sleeve * 0.400
@@ -107,11 +109,12 @@ def calculate_garment_measurements(pred_sleeve, pred_bicep, pred_leg_length, bod
     garment_thigh_in = body_thigh_in + THIGH_EASE_INCHES
     garment_thigh_cm = garment_thigh_in * 2.54
 
-    shorts_length = pred_leg_length - 57.7
+    adj_leg_length = pred_leg_length * LEG_LENGTH_ADJUSTMENT_MULTIPLIER
+    shorts_length = adj_leg_length - 57.7
     shorts_leg_opening_base = garment_thigh_cm * 1.100
     shorts_inseam = shorts_length - (pred_rise / 2)
     pant_leg_opening_base = garment_thigh_cm * 0.696
-    pant_inseam = pred_leg_length - (pred_rise / 2)
+    pant_inseam = adj_leg_length - (pred_rise / 2)
 
     # Fit/build multipliers
     fit_multipliers = {"Regular": 1.0, "Slim": 0.90, "Relaxed/Athletic": 1.10}
@@ -180,8 +183,9 @@ if st.sidebar.button("Predict Measurements"):
         adj_waist, adj_hips, adj_thigh, adj_rise = adjust_for_fit_taper(
             pred_waist, pred_hips, pred_thigh, pred_rise, fit_type, taper_type, build_type)
 
+        adj_leg_length = pred_leg_length * LEG_LENGTH_ADJUSTMENT_MULTIPLIER
         garment_measurements = calculate_garment_measurements(
-            pred_sleeve, pred_bicep, pred_leg_length, adj_thigh, pred_rise, fit_type, build_type)
+            pred_sleeve, pred_bicep, adj_leg_length, adj_thigh, pred_rise, fit_type, build_type)
 
         tabs = st.tabs([
             "Full-Sleeve Shirts", "Short-Sleeve Shirts",
@@ -220,7 +224,7 @@ if st.sidebar.button("Predict Measurements"):
             col1, col2 = st.columns(2)
             with col1:
                 st.metric("Rise", f"{adj_rise/2.54:.1f}\" | {adj_rise:.1f} cm", help="Distance from crotch to waistband")
-                st.metric("Outseam Length", f"{pred_leg_length/2.54:.1f}\" | {pred_leg_length:.1f} cm")
+                st.metric("Outseam Length", f"{(adj_leg_length)/2.54:.1f}\" | {adj_leg_length:.1f} cm")
                 st.metric("Inseam Length",
                         f"{garment_measurements['pant_inseam']/2.54:.1f}\" | {garment_measurements['pant_inseam']:.1f} cm",
                         help="Outseam minus rise/2")
@@ -306,7 +310,7 @@ if st.sidebar.button("Predict Measurements"):
             st.markdown("#### Pants")
             col1, col2 = st.columns(2)
             with col1:
-                st.write(f"**Outseam:** {pred_leg_length:.1f} cm")
+                st.write(f"**Outseam:** {adj_leg_length:.1f} cm")
                 st.write(f"**Inseam:** {garment_measurements['pant_inseam']:.1f} cm")
                 st.write(f"**Rise:** {adj_rise:.1f} cm")
                 st.write(f"**Waist:** {adj_waist:.1f} cm")
