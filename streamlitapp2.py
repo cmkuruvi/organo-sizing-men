@@ -109,12 +109,11 @@ def calculate_garment_measurements(pred_sleeve, pred_bicep, pred_leg_length, bod
     garment_thigh_in = body_thigh_in + THIGH_EASE_INCHES
     garment_thigh_cm = garment_thigh_in * 2.54
 
-    adj_leg_length = pred_leg_length * LEG_LENGTH_ADJUSTMENT_MULTIPLIER
-    shorts_length = adj_leg_length - 57.7
+    shorts_length = pred_leg_length - 57.7
     shorts_leg_opening_base = garment_thigh_cm * 1.100
     shorts_inseam = shorts_length - (pred_rise / 2)
     pant_leg_opening_base = garment_thigh_cm * 0.696
-    pant_inseam = adj_leg_length - (pred_rise / 2)
+    pant_inseam = pred_leg_length - (pred_rise / 2)
 
     # Fit/build multipliers
     fit_multipliers = {"Regular": 1.0, "Slim": 0.90, "Relaxed/Athletic": 1.10}
